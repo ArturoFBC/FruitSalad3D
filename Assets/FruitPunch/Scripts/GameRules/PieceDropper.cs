@@ -12,6 +12,7 @@ public class PieceDropper : MonoBehaviour
     private PieceBahaviour currentPieceBahaviour;
 
     [SerializeField] private Vector3 initialPosition;
+    private Vector2 previousMousePosition;
 
     [SerializeField] private float pieceSpeed = 0.2f;
 
@@ -37,11 +38,19 @@ public class PieceDropper : MonoBehaviour
     {
         ManageDropPieceTiming();
 
-        Vector2 input = Vector2.zero;
-        input.y = Input.GetAxis("Vertical");
-        input.x = Input.GetAxis("Horizontal");
-        if (input != Vector2.zero)
-            MovePiece(input, Time.deltaTime, Camera.main.transform.position);
+        if (currentPiece != null)
+        {
+            Vector2 input = Vector2.zero;
+            input.y = Input.GetAxis("Vertical");
+            input.x = Input.GetAxis("Horizontal");
+            if (input != Vector2.zero)
+                MovePiece(input, Time.deltaTime, Camera.main.transform.position);
+            else
+                if (Input.GetAxis("Fire2") <= 0) //If we are not rotating
+                MovePiece((Vector2)Input.mousePosition - previousMousePosition, 0.003f, Camera.main.transform.position);
+        }
+
+        previousMousePosition = Input.mousePosition;
     }
 
     private void ManageDropPieceTiming()
@@ -71,7 +80,7 @@ public class PieceDropper : MonoBehaviour
         Vector3 cameraDirection = transform.position - cameraPosition;
         cameraDirection.y = 0;
         float angle = Vector3.Angle(cameraDirection, Vector3.forward);
-        print(angle + " " + relativeDirection);
+        //print(angle + " " + relativeDirection);
 
         
         relativeDirection = Quaternion.AngleAxis(angle, Vector3.up) * relativeDirection;
@@ -81,7 +90,6 @@ public class PieceDropper : MonoBehaviour
         float pieceRadius = currentPiece.transform.lossyScale.x / 2f;
         intendedPosition.x = Mathf.Clamp(intendedPosition.x, westBound.position.x + pieceRadius, eastBound.position.x - pieceRadius);
         intendedPosition.z = Mathf.Clamp(intendedPosition.z, southBound.position.z+ pieceRadius, northBound.position.z - pieceRadius);
-     //   print(intendedPosition);
         currentPiece.transform.position = intendedPosition;
     }
 

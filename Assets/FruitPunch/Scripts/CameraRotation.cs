@@ -40,7 +40,7 @@ public class CameraRotation : MonoBehaviour
             currentRotation.x -= 360;
         Vector3 targetRotation = new Vector3(currentRotation.x + movement.y, currentRotation.y + movement.x, 0f);
 
-        targetRotation.y = Mathf.Clamp(targetRotation.y, minAngle.x, maxAngle.x);
+        //targetRotation.y = Mathf.Clamp(targetRotation.y, minAngle.x, maxAngle.x);
         targetRotation.x = Mathf.Clamp(targetRotation.x, minAngle.y, maxAngle.y);
 
         Quaternion targetQuaternion = new Quaternion();
