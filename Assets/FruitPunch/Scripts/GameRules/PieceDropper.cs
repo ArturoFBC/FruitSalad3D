@@ -12,7 +12,6 @@ public class PieceDropper : MonoBehaviour
     private PieceBahaviour currentPieceBahaviour;
 
     [SerializeField] private Vector3 initialPosition;
-    private Vector2 previousMousePosition;
 
     [SerializeField] private float pieceSpeed = 0.2f;
 
@@ -47,10 +46,8 @@ public class PieceDropper : MonoBehaviour
                 MovePiece(input, Time.deltaTime, Camera.main.transform.position);
             else
                 if (Input.GetAxis("Fire2") <= 0) //If we are not rotating
-                MovePiece((Vector2)Input.mousePosition - previousMousePosition, 0.003f, Camera.main.transform.position);
+                    PointerMovePiece((Vector2)Input.mousePosition, Camera.main.transform.position);
         }
-
-        previousMousePosition = Input.mousePosition;
     }
 
     private void ManageDropPieceTiming()
@@ -80,9 +77,9 @@ public class PieceDropper : MonoBehaviour
         Vector3 cameraDirection = transform.position - cameraPosition;
         cameraDirection.y = 0;
         float angle = Vector3.Angle(cameraDirection, Vector3.forward);
-        //print(angle + " " + relativeDirection);
+        Vector3 cross = Vector3.Cross(cameraDirection, Vector3.forward);
+        if (cross.y > 0) angle = -angle;
 
-        
         relativeDirection = Quaternion.AngleAxis(angle, Vector3.up) * relativeDirection;
         
         Vector3 intendedPosition = currentPiece.transform.position + relativeDirection * (pieceSpeed * deltaTime);
@@ -91,6 +88,42 @@ public class PieceDropper : MonoBehaviour
         intendedPosition.x = Mathf.Clamp(intendedPosition.x, westBound.position.x + pieceRadius, eastBound.position.x - pieceRadius);
         intendedPosition.z = Mathf.Clamp(intendedPosition.z, southBound.position.z+ pieceRadius, northBound.position.z - pieceRadius);
         currentPiece.transform.position = intendedPosition;
+    }
+
+    private void PointerMovePiece(Vector2 pointerPosition, Vector3 cameraPosition)
+    {
+        float pieceRadius = currentPiece.transform.lossyScale.x / 2f;
+
+        Vector2 minScreen = new Vector2( Screen.width * 0.35f, Screen.height * 0.2f );
+        Vector2 maxScreen = new Vector2( Screen.width * 0.65f, Screen.height * 0.8f );
+
+        Vector2 minBoardPosition = new Vector2(westBound.position.x + pieceRadius, southBound.position.z + pieceRadius);
+        Vector2 maxBoardPosition = new Vector2(eastBound.position.x - pieceRadius, northBound.position.z - pieceRadius);
+
+        float mappedX = Map( pointerPosition.x, minScreen.x, maxScreen.x, minBoardPosition.x, maxBoardPosition.x);
+        float mappedY = Map( pointerPosition.y, minScreen.y, maxScreen.y, minBoardPosition.y, maxBoardPosition.y);
+
+        Vector3 relativePosition = new Vector3(mappedX, 0, mappedY);
+
+        Vector3 cameraDirection = transform.position - cameraPosition;
+        cameraDirection.y = 0;
+        float angle = Vector3.Angle(cameraDirection, Vector3.forward);
+        Vector3 cross = Vector3.Cross(cameraDirection, Vector3.forward);
+        if (cross.y > 0) angle = -angle;
+
+        relativePosition = Quaternion.AngleAxis(angle, Vector3.up) * relativePosition;
+        relativePosition.y = currentPiece.transform.position.y;
+
+        relativePosition.x = Mathf.Clamp(relativePosition.x, minBoardPosition.x, maxBoardPosition.x);
+        relativePosition.z = Mathf.Clamp(relativePosition.z, minBoardPosition.y, maxBoardPosition.y);
+        currentPiece.transform.position = relativePosition;
+    }
+
+    private float Map(float value, float minInitialValue, float maxInitialValue, float minMappedValue, float maxMappedValue)
+    {
+        float percentage = (value - minInitialValue) / (maxInitialValue - minInitialValue);
+
+        return minMappedValue + (percentage * (maxMappedValue - minMappedValue));
     }
 
     private void DropPiece()
