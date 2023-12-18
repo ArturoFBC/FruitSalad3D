@@ -23,7 +23,7 @@ public class PieceBahaviour : MonoBehaviour
     }
 
 
-    private const float SIZE_RATIO = 0.25f;
+    private const float SIZE_RATIO = 0.20f;
 
     private bool initialized = false;
 
@@ -89,12 +89,20 @@ public class PieceBahaviour : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        PieceBahaviour otherPiece = collision.gameObject.GetComponent<PieceBahaviour>();
-        if (otherPiece != null)
+        if (collision.gameObject.tag == gameObject.tag)
         {
-            if (otherPiece.GetSize() == mySize)
-                CombineWith(otherPiece);
+            PieceBahaviour otherPiece = collision.gameObject.GetComponent<PieceBahaviour>();
+            if (otherPiece != null)
+            {
+                if (otherPiece.GetSize() == mySize)
+                    CombineWith(otherPiece);
+            }
         }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        OnCollisionEnter(collision);
     }
 
     private void CombineWith(PieceBahaviour otherPiece)

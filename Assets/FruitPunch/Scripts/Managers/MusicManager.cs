@@ -6,8 +6,7 @@ using UnityEngine.SceneManagement;
 public enum MusicTrackType
 {
     MAIN_MENU,
-    LAIR,
-    SWAMP
+    GAME
 }
 
 [System.Serializable]
@@ -74,12 +73,8 @@ public class MusicManager : MonoBehaviour
     {
         if (scene.name.Contains("Menu"))
             StartCrossFade(MusicTrackType.MAIN_MENU);
-        else if (scene.name.Contains("Lair"))
-            StartCrossFade(MusicTrackType.LAIR);
-        else if (scene.name.Contains("Choose"))
-            StartCrossFade(MusicTrackType.LAIR);
         else
-            StartCrossFade(MusicTrackType.SWAMP);
+            StartCrossFade(MusicTrackType.GAME);
     }
 
     public void StartMusic(MusicTrackType track)
