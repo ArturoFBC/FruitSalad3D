@@ -27,7 +27,7 @@ public class GoToMainButton : MonoBehaviour
 
     private void Operation_completed(AsyncOperation obj)
     {
-        Scene scene = SceneManager.GetSceneByName("GameScene");
+        Scene scene = SceneManager.GetSceneByName(sceneName);
         SceneManager.SetActiveScene(scene);
 
         obj.completed -= Operation_completed;

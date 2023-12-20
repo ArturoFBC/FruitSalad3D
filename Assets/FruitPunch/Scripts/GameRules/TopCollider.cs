@@ -78,6 +78,8 @@ public class TopCollider : MonoBehaviour
             if (piece.outOfBoundsTimeCounter > outOfBoundsTimeLimit)
             {
                 GameManager.instance.EndGame();
+                gameObject.SetActive(false);
+                break;
             }
 
             print(piece.piece.name + " " + piece.outOfBoundsTimeCounter);

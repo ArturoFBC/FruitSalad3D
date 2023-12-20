@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -39,6 +40,8 @@ public class MusicManager : MonoBehaviour
         }
     }
 
+    public bool muted { get; private set; }
+
     private AudioSource musicSourceA;
     private AudioSource musicSourceB;
 
@@ -71,14 +74,13 @@ public class MusicManager : MonoBehaviour
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name.Contains("Menu"))
-            StartCrossFade(MusicTrackType.MAIN_MENU);
-        else
-            StartCrossFade(MusicTrackType.GAME);
+        StartCrossFade(GetTrackForScene(scene));
     }
 
     public void StartMusic(MusicTrackType track)
     {
+        if (muted) return;
+
         AudioSource currentSource = (is_A_TheActiveMusicSource ? musicSourceA : musicSourceB);
 
         if (currentSource.isPlaying && track == currentTrack)
@@ -92,6 +94,8 @@ public class MusicManager : MonoBehaviour
 
     public void StartFade(MusicTrackType track, float transitionTime = 2f)
     {
+        if (muted) return;
+
         AudioSource currentSource = (is_A_TheActiveMusicSource ? musicSourceA : musicSourceB);
 
         if (currentSource.isPlaying && track == currentTrack)
@@ -104,6 +108,8 @@ public class MusicManager : MonoBehaviour
 
     public void StartCrossFade(MusicTrackType track, float transitionTime = 2f)
     {
+        if (muted) return;
+
         AudioSource currentSource = (is_A_TheActiveMusicSource ? musicSourceA : musicSourceB);
 
         if (currentSource.isPlaying && track == currentTrack)
@@ -119,6 +125,26 @@ public class MusicManager : MonoBehaviour
         StartCoroutine(StartMusicCrossFade(currentSource, nextSource, transitionTime));
 
         currentTrack = track;
+    }
+
+    public void SetMute( bool newMuted )
+    {
+        if (muted == newMuted)
+            return;
+
+        muted = newMuted;
+
+        if (muted)
+            StopMusic();
+        else
+            StartMusic(GetTrackForScene(SceneManager.GetActiveScene()));
+    }
+
+    private void StopMusic()
+    {
+        StopAllCoroutines();
+        musicSourceA.Stop();
+        musicSourceB.Stop();
     }
 
     private IEnumerator StartMusicFade(AudioSource source, MusicTrackType track, float transitionTime)
@@ -164,10 +190,19 @@ public class MusicManager : MonoBehaviour
             source.loop = false;
             source.clip = track.intro;
             source.Play();
-            yield return new WaitForSecondsRealtime(track.intro.length);
+            yield return new WaitWhile( () => source.isPlaying );
         }
         source.loop = true;
         source.clip = track.loop;
         source.Play();
     }
+
+    private MusicTrackType GetTrackForScene(Scene currentScene)
+    {
+        if (currentScene.name.Contains("Menu"))
+            return MusicTrackType.MAIN_MENU;
+        else
+            return MusicTrackType.GAME;
+    }
+
 }

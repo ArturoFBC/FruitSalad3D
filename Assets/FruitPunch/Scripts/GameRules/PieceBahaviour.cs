@@ -23,7 +23,7 @@ public class PieceBahaviour : MonoBehaviour
     }
 
 
-    private const float SIZE_RATIO = 0.20f;
+    private const float SIZE_RATIO = 0.23f;
 
     private bool initialized = false;
 

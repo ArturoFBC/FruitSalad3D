@@ -15,6 +15,8 @@ public class ScoreDisplay : MonoBehaviour
             myText = GetComponent<TextMeshProUGUI>();
 
         ScoreManager.UpdateScoreEvent += OnScoreUpdated;
+
+        OnScoreUpdated(0, ScoreManager.GetScore());
     }
 
     private void OnDestroy()
