@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 
 public class PieceBahaviour : MonoBehaviour
@@ -25,6 +24,8 @@ public class PieceBahaviour : MonoBehaviour
 
     private const float SIZE_RATIO = 0.23f;
 
+    private float pieceDestroyTime = 0.2f;
+
     private bool initialized = false;
 
     [SerializeField] private Rigidbody myRigidBody;
@@ -34,6 +35,9 @@ public class PieceBahaviour : MonoBehaviour
 
     [SerializeField] private List<GameObject> graphicPrefabs;
     private GameObject currentGraphic;
+
+    [SerializeField] private List<Color> effectColors;
+    [SerializeField] private GameObject destroyFXPrefab;
 
     private bool physicallySet = false;
     private float maxVelocityToConsiderSet = 0.1f;
@@ -48,7 +52,6 @@ public class PieceBahaviour : MonoBehaviour
     private void OnEnable()
     {
         Initialize();
-        UpdateSize();
         physicallySet = false;
     }
 
@@ -81,10 +84,15 @@ public class PieceBahaviour : MonoBehaviour
         myTransform.localScale = Vector3.one * (SIZE_RATIO * ((float)mySize + 2.5f));
         myRigidBody.mass = (float)mySize + 2.5f;
 
-        if (currentGraphic != null)
-            Destroy(currentGraphic);
+        InstantiateNewGraphic();
+    }
 
+    private void InstantiateNewGraphic()
+    {
         currentGraphic = Instantiate(graphicPrefabs[mySize], myTransform, false);
+        Vector3 finalSize = currentGraphic.transform.localScale;
+        currentGraphic.transform.localScale = Vector3.zero;
+        currentGraphic.AddComponent<ScaleInXSeconds>().Set(finalSize, pieceDestroyTime);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -107,22 +115,44 @@ public class PieceBahaviour : MonoBehaviour
 
     private void CombineWith(PieceBahaviour otherPiece)
     {
+        Vector3 combinePosition = (otherPiece.transform.position + myTransform.position) / 2f;
+
+        if (currentGraphic != null)
+            DestroyFX(combinePosition);
+
         mySize += 1;
         UpdateSize();
-        myTransform.position = (otherPiece.transform.position + myTransform.position) / 2f;
 
-        myRigidBody.velocity += otherPiece.BeAbsorbed();
+        myTransform.position = combinePosition;
+
+        myRigidBody.velocity += otherPiece.BeAbsorbed(myTransform.position);
 
         PieceCombinationEvent?.Invoke(mySize);
     }
 
-    private Vector3 BeAbsorbed()
+    private Vector3 BeAbsorbed(Vector3 absorbPosition)
     {
         Vector3 returnVelocity = myRigidBody.velocity;
         GameObject myGameObject = gameObject;
         myGameObject.SetActive(false);
+
+        if (currentGraphic!= null)
+            DestroyFX(absorbPosition);
+
         Destroy(myGameObject);
         return returnVelocity;
+    }
+
+    private void DestroyFX(Vector3 absorbPosition)
+    {
+        currentGraphic.transform.SetParent(null);
+        currentGraphic.AddComponent<DisplaceTowardsInXSeconds>().Set(absorbPosition, pieceDestroyTime);
+        currentGraphic.GetComponent<ScaleInXSeconds>().Set(Vector3.zero, pieceDestroyTime);
+        Destroy(currentGraphic, pieceDestroyTime);
+        ParticleSystem particleFX = Instantiate(destroyFXPrefab).GetComponent<ParticleSystem>();
+        particleFX.startColor = effectColors[mySize];
+        particleFX.transform.position = absorbPosition;
+        Destroy(particleFX.gameObject, pieceDestroyTime * 3f);
     }
 
     public int GetSize()
@@ -132,6 +162,9 @@ public class PieceBahaviour : MonoBehaviour
 
     internal void SetSize(int newSize)
     {
+        if (currentGraphic != null)
+            DestroyFX(transform.position);
+
         mySize = newSize;
         UpdateSize();
     }

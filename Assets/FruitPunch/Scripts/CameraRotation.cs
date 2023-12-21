@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ public class CameraRotation : MonoBehaviour
     [SerializeField] private Vector2 moveSpeed;
 
     private Vector2 previousPointerPosition;
+
+    public static Action RightMouseDragEvent;
 
     // Update is called once per frame
     void Update()
@@ -32,6 +35,9 @@ public class CameraRotation : MonoBehaviour
 
         movement.y = moveDirection.y * moveSpeed.y;
         movement.x = moveDirection.x * moveSpeed.x;
+
+        if (movement != Vector2.zero)
+            RightMouseDragEvent?.Invoke();
 
         Vector3 currentRotation = transform.rotation.eulerAngles;
         if (currentRotation.y > maxAngle.x + 1)
