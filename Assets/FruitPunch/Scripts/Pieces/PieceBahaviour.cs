@@ -1,3 +1,4 @@
+using FruitSalad3D.scripts.audio.sound;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -97,6 +98,11 @@ public class PieceBahaviour : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        CheckCollision(collision, true);
+    }
+
+    private void CheckCollision(Collision collision, bool withSound)
+    {
         if (collision.gameObject.tag == gameObject.tag)
         {
             PieceBahaviour otherPiece = collision.gameObject.GetComponent<PieceBahaviour>();
@@ -106,11 +112,14 @@ public class PieceBahaviour : MonoBehaviour
                     CombineWith(otherPiece);
             }
         }
+
+        if (withSound)
+            SoundManager._Ref.PlaySound(SoundType.DROP, collision.relativeVelocity.magnitude / 20f, 1.5f / mySize);
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        OnCollisionEnter(collision);
+        CheckCollision(collision, false);
     }
 
     private void CombineWith(PieceBahaviour otherPiece)
@@ -119,6 +128,8 @@ public class PieceBahaviour : MonoBehaviour
 
         if (currentGraphic != null)
             DestroyFX(combinePosition);
+
+        SoundManager._Ref.PlaySound(SoundType.COMBINE);
 
         mySize += 1;
         UpdateSize();

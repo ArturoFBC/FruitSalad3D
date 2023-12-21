@@ -1,3 +1,5 @@
+using FruitSalad3D.scripts.audio.sound;
+using FruitSalad3D.scripts.audio.music;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +19,7 @@ public class MuteToggle : MonoBehaviour
 
     private void OnValueChanged(bool mute)
     {
-       MusicManager._Ref.SetMute(mute);
+        MusicManager._Ref.SetMute(mute);
+        SoundManager._Ref.SetMute(mute);
     }
 }

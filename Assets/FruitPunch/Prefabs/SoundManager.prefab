@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1835704726661545762
+--- !u!1 &1098937732256723472
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,42 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 9170165334572206208}
-  - component: {fileID: 1600984666249144665}
+  - component: {fileID: 3299397964878683938}
+  - component: {fileID: 6576130532618149226}
   m_Layer: 0
-  m_Name: MusicManager
+  m_Name: SoundManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &9170165334572206208
+--- !u!4 &3299397964878683938
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1835704726661545762}
+  m_GameObject: {fileID: 1098937732256723472}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 209.67188, y: 107.850006, z: 0}
+  m_LocalPosition: {x: 1274.9609, y: 712.96094, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1600984666249144665
+--- !u!114 &6576130532618149226
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1835704726661545762}
+  m_GameObject: {fileID: 1098937732256723472}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2619ac12e19a9c4eb1ab3beaae69106, type: 3}
+  m_Script: {fileID: 11500000, guid: f4916cc7a7641324e8e3c38f24840347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myTrackList: {fileID: 11400000, guid: 61dc8a573050855419f1b761febfcbc7, type: 2}
-  topVolume: 0.5
-  currentTrack: 0
+  mySoundList: {fileID: 11400000, guid: 26e7db195f9b42f43bacf90e433366cf, type: 2}
