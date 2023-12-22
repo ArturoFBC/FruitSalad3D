@@ -1,62 +1,82 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEditor;
+using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class TransitionInOutPanel : MonoBehaviour
 {
-    public float _Duration = 1f;
-    public float _Counter = 0f;
+    [SerializeField] private float duration = 1f;
 
-    private bool _FadeIn = true;
+    private CanvasGroup myCanvasGroup;
 
-    CanvasGroup _MyCanvasGroup;
+    private static TransitionInOutPanel _ref;
+    public static TransitionInOutPanel _Ref
+    {
+        get
+        {
+            if (_ref == null)
+            {
+                _ref = FindObjectOfType<TransitionInOutPanel>();
 
+                if (_ref == null)
+                    _ref = new GameObject("InstantiatedTransitionPanel", typeof(TransitionInOutPanel)).GetComponent<TransitionInOutPanel>();
+            }
 
+            return _ref;
+        }
+        private set
+        {
+            _ref = value;
+        }
+    }
 
     private void Awake()
     {
-        if (_MyCanvasGroup == null)
-            _MyCanvasGroup = GetComponent<CanvasGroup>();
-    }
-
-    private void OnEnable()
-    {
-        StartFade( );
-    }
-
-    private void StartFade()
-    {
-        SetChildrenActive(true);
-
-        _MyCanvasGroup.alpha = _FadeIn ? 1f : 0f;
-        _MyCanvasGroup.enabled = true;
-
-        _Counter = 0f;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if ( _Counter >= _Duration )
+        if (_Ref != null && _Ref != this)
         {
-            if (_FadeIn)
-            {
-                _MyCanvasGroup.enabled = false;
-                SetChildrenActive(false);
-                gameObject.SetActive(false);
-                _FadeIn = false;
-            }
+            Destroy(gameObject);
+            return;
         }
-        else
-        {
-            float progress = _Counter / _Duration;
-            if (_FadeIn)
-                progress = 1 - progress;
 
-            _MyCanvasGroup.alpha = progress * 1.1f;
-            _Counter += Time.unscaledDeltaTime;
-        }
+        DontDestroyOnLoad(this.gameObject);
+
+        if (myCanvasGroup == null)
+            myCanvasGroup = GetComponent<CanvasGroup>();
     }
+
+    public void StartFade()
+    {
+        StartCoroutine(Fade(duration));
+    }
+
+    private IEnumerator Fade(float duration)
+    {
+        yield return Fade(true, duration / 3f);
+        yield return new WaitForSeconds(duration / 3f);
+        yield return Fade(false, duration / 3f);
+    }
+
+    private IEnumerator Fade(bool fadeIn, float duration)
+    {
+        gameObject.SetActive(true);
+        myCanvasGroup.alpha = fadeIn ? 0f : 1;
+        myCanvasGroup.enabled = true;
+
+        float counter = 0f;
+
+        while (counter < duration)
+        {
+            yield return new WaitForEndOfFrame();
+            counter += Time.deltaTime;
+            float progress = counter / duration;
+            myCanvasGroup.alpha = fadeIn ? progress : 1 - progress;
+        }
+
+        myCanvasGroup.alpha = fadeIn ? 1f : 0;
+    }
+
 
     private void SetChildrenActive( bool active )
     {
@@ -64,5 +84,10 @@ public class TransitionInOutPanel : MonoBehaviour
         {
             child.gameObject.SetActive( active );
         }
+    }
+
+    internal float GetDuration()
+    {
+        return duration / 2f;
     }
 }

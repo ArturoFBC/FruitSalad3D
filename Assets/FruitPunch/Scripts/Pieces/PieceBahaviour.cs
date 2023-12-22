@@ -23,7 +23,7 @@ public class PieceBahaviour : MonoBehaviour
     }
 
 
-    private const float SIZE_RATIO = 0.23f;
+    private const float SIZE_RATIO = 0.25f;
 
     private float pieceDestroyTime = 0.2f;
 

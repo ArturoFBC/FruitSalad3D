@@ -29,11 +29,6 @@ public class ScoreManager : MonoBehaviour
         score = 0;
         UpdateScoreEvent?.Invoke(0, score);
         PieceBahaviour.PieceCombinationEvent += OnPieceCombination;
-        List<int> list = GetScoreBoard();
-        for (int i = 0; i < list.Count; i++)
-        {
-            print(list[i]);
-        }
     }
 
     private void OnGameEnd()

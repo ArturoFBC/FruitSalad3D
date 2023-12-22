@@ -20,6 +20,18 @@ public class GoToMainButton : MonoBehaviour
 
     private void GoToScene()
     {
+        StartCoroutine(ChangeSceneWithTransition());
+    }
+
+    private IEnumerator ChangeSceneWithTransition()
+    {
+        TransitionInOutPanel._Ref.StartFade();
+        yield return new WaitForSeconds(TransitionInOutPanel._Ref.GetDuration() / 2f);
+        ChangeScene();
+    }
+
+    private void ChangeScene()
+    {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
         operation.allowSceneActivation = true;
         operation.completed += Operation_completed;

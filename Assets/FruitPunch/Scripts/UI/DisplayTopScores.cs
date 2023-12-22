@@ -9,10 +9,16 @@ public class DisplayTopScores : MonoBehaviour
 
     private void Awake()
     {
+        DisplayScores();
         ScoreManager.UpdateScoreEvent += OnScoreUpdated;
     }
 
     private void OnScoreUpdated(int addedScore, int currentScore)
+    {
+        DisplayScores();
+    }
+
+    private void DisplayScores()
     {
         string scores = "";
         List<int> scoreBoard = ScoreManager.GetScoreBoard();
