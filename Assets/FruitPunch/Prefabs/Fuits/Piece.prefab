@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8558112588025903670}
   - component: {fileID: 1459417014769068094}
   - component: {fileID: 4425525068808252974}
+  - component: {fileID: 5091210944534467249}
   m_Layer: 0
   m_Name: Piece
   m_TagString: Piece
@@ -117,3 +118,16 @@ MonoBehaviour:
   - {r: 0.84695363, g: 1, b: 0, a: 1}
   - {r: 1, g: 0, b: 0, a: 1}
   destroyFXPrefab: {fileID: 4730243822845580538, guid: 1c994d35089d6bc44a6ef1dbf3ad0b17, type: 3}
+--- !u!114 &5091210944534467249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536074437360209968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6eabe1957eea14f9eb751f495290df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundType: 3

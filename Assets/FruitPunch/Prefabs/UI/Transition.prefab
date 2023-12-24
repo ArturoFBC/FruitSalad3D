@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6050625470461571533}
   - component: {fileID: 8294698885527967086}
   m_Layer: 5
-  m_Name: Tansition
+  m_Name: Transition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,9 +112,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1348079018863661659}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &8294698885527967086
 MonoBehaviour:

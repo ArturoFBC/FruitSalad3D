@@ -4,6 +4,10 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+/// <summary>
+/// This hides the switching between scenes by covering the screen with an UI canvas that fades in before switching and fades out after switching
+/// </summary>
 [RequireComponent(typeof(CanvasGroup))]
 public class TransitionInOutPanel : MonoBehaviour
 {

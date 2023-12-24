@@ -20,6 +20,9 @@ namespace FruitSalad3D.scripts.audio.music
         public AudioClip loop;
     }
 
+    /// <summary>
+    /// This class plays a differenc music for each scene. It uses two audio sources to crossfade music when switching scenes.
+    /// </summary>
     public class MusicManager : MonoBehaviour
     {
         private static MusicManager _ref;
@@ -75,11 +78,14 @@ namespace FruitSalad3D.scripts.audio.music
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
+
         public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             StartCrossFade(GetTrackForScene(scene));
         }
 
+
+        #region CALLS_FROM_OTHER_SCRIPTS
         public void StartMusic(MusicTrackType track)
         {
             if (muted) return;
@@ -142,6 +148,7 @@ namespace FruitSalad3D.scripts.audio.music
             else
                 StartMusic(GetTrackForScene(SceneManager.GetActiveScene()));
         }
+        #endregion
 
         private void StopMusic()
         {

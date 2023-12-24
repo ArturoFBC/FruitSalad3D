@@ -4,6 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This scripts manages the behaviour of each piece, absorbing other pieces and increasing in size 
+/// </summary>
 public class PieceBahaviour : MonoBehaviour
 {
     enum PieceType
@@ -98,10 +101,10 @@ public class PieceBahaviour : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        CheckCollision(collision, true);
+        CheckCollision(collision);
     }
 
-    private void CheckCollision(Collision collision, bool withSound)
+    private void CheckCollision(Collision collision)
     {
         if (collision.gameObject.tag == gameObject.tag)
         {
@@ -112,14 +115,11 @@ public class PieceBahaviour : MonoBehaviour
                     CombineWith(otherPiece);
             }
         }
-
-        if (withSound)
-            SoundManager._Ref.PlaySound(SoundType.DROP, collision.relativeVelocity.magnitude / 20f, 1.5f / mySize);
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        CheckCollision(collision, false);
+        CheckCollision(collision);
     }
 
     private void CombineWith(PieceBahaviour otherPiece)

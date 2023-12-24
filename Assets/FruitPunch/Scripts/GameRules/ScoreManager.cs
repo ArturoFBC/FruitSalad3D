@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This script manages the score, including both the current score during a game and the top scores, saving and loading them to the player prefs
+/// </summary>
 public class ScoreManager : MonoBehaviour
 {
     private const int SCORE_BOARD_LENGTH = 5;
