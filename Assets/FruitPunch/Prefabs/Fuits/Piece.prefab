@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &536074437360209968
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 133005273643398658}
+  - component: {fileID: 8558112588025903670}
+  - component: {fileID: 1459417014769068094}
+  - component: {fileID: 4425525068808252974}
+  - component: {fileID: 5091210944534467249}
+  m_Layer: 0
+  m_Name: Piece
+  m_TagString: Piece
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &133005273643398658
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536074437360209968}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &8558112588025903670
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536074437360209968}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1459417014769068094
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536074437360209968}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &4425525068808252974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536074437360209968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abf7efaea93148440a68868158ba610f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myRigidBody: {fileID: 1459417014769068094}
+  mySize: 1
+  graphicPrefabs:
+  - {fileID: 9164772265318037194, guid: 40007e475063fc34b8d9aec568bcdeaa, type: 3}
+  - {fileID: 3499573601516523753, guid: d3c0db0c70bec234bab4292a7a1e5d6f, type: 3}
+  - {fileID: 3947853075914817641, guid: 735aad6194ca4e94ba34d30526fa82f1, type: 3}
+  - {fileID: 1814879234384699760, guid: 55322de0cb328c94b931223300b1b467, type: 3}
+  - {fileID: 6382238197602030600, guid: 5570556b34440d0469065f2c00129fdb, type: 3}
+  - {fileID: 3977055159337727122, guid: 962473ae0d7ef6047b320381d293a8b8, type: 3}
+  - {fileID: 665266958195474173, guid: da53dc2e52b74c940904fd8bcfdb6a36, type: 3}
+  - {fileID: 8459289062114234236, guid: 70c1e400bc1131e4fab770ac58b5bb89, type: 3}
+  - {fileID: 6950278832423775179, guid: ad2c5dcaa1bf8f847b1a7f5dc67bc123, type: 3}
+  effectColors:
+  - {r: 0.9843137, g: 0, b: 0.2627451, a: 1}
+  - {r: 0.53919387, g: 1, b: 0.23113209, a: 1}
+  - {r: 0.89599895, g: 1, b: 0, a: 1}
+  - {r: 0.120666504, g: 1, b: 0, a: 1}
+  - {r: 0.73838913, g: 1, b: 0.2783019, a: 1}
+  - {r: 1, g: 0.69559526, b: 0, a: 1}
+  - {r: 1, g: 0.69559526, b: 0, a: 1}
+  - {r: 0.84695363, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  destroyFXPrefab: {fileID: 4730243822845580538, guid: 1c994d35089d6bc44a6ef1dbf3ad0b17, type: 3}
+--- !u!114 &5091210944534467249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536074437360209968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6eabe1957eea14f9eb751f495290df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundType: 3
